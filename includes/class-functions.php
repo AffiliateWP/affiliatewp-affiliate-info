@@ -68,11 +68,20 @@ class AffiliateWP_Affiliate_Info_Functions {
 			// get user by WP username
 			$user = get_user_by( 'login', $referral_value );
 
-			// get the user ID
-			$user_id = $user->ID;
+			if ( $user ) {
+				// get the affiliate ID from the user ID
+				$affiliate_id = affwp_get_affiliate_id( $user->ID );
 
-			// get the affiliate ID from the user ID
-			$affiliate_id = affwp_get_affiliate_id( $user_id );
+			} elseif ( class_exists( 'AffiliateWP_Custom_Affiliate_Slugs' ) ) {
+
+				// try and get the affiliate ID based on the custom slug
+				$custom_affiliate_slugs = new AffiliateWP_Custom_Affiliates_Slugs_Base;
+
+				if ( method_exists( $custom_affiliate_slugs, 'get_affiliate_id_from_slug' ) ) {
+					$affiliate_id = $custom_affiliate_slugs->get_affiliate_id_from_slug( $referral_value );
+				}
+
+			}
 
 		} else {
 			// affiliate ID was used instead of username
