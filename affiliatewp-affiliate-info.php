@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: AffiliateWP - Affiliate Info
- * Plugin URI: http://affiliatewp.com/
+ * Plugin URI: https://affiliatewp.com/
  * Description: Show information based on the affiliate's referral URL
- * Author: Pippin Williamson and Andrew Munro
- * Author URI: http://affiliatewp.com
- * Version: 1.0.3
+ * Author: AffiliateWP, LLC
+ * Author URI: https://affiliatewp.com/
+ * Version: 1.0.4
  * Text Domain: affiliatewp-affiliate-info
  * Domain Path: languages
  *
@@ -49,7 +49,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		private $version = '1.0.3';
+		private $version = '1.0.4';
 
 		/**
 		 * Functions
