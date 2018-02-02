@@ -2,8 +2,8 @@
 Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, affiliates, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, membership, referrals, marketing
 Requires at least: 3.3
-Tested up to: 4.8.1
-Stable tag: 1.0.4
+Tested up to: 4.9.2
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ OR you can just install it with WordPress by going to Plugins >> Add New >> and 
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 1.0.5 =
+* Fix: Compatibility with the Affiliate Landing Pages pro add-on, allowing affiliate info to be shown on first page load.
 
 = 1.0.4 =
 * New: Compatibility with the Custom Affiliate Slugs pro add-on
