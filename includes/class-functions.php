@@ -8,6 +8,7 @@ class AffiliateWP_Affiliate_Info_Functions {
 	 * Get the affiliate ID
 	 *
 	 * @since 1.0.0
+	 * @since 1.0.5 Added an additional check for the Affiliate Landing Pages add-on.
 	 */
 	public function get_affiliate_id() {
 
@@ -17,8 +18,15 @@ class AffiliateWP_Affiliate_Info_Functions {
 		// Get referral variable (eg ref).
 		$referral_var = affiliate_wp()->tracking->get_referral_var();
 
-		// if credit last referrer is enabled it needs to get the affiliate ID from the URL straight away
-		if ( $credit_last_referrer ) {
+		if ( class_exists( 'AffiliateWP_Affiliate_Landing_Pages' ) && $get_affiliate_id = affiliatewp_affiliate_landing_pages()->get_affiliate_id( get_the_ID() ) ) {
+			/**
+			 * If Affiliate Landing Pages is installed, try and retrieve an
+			 * affiliate ID from the current page.
+			 */
+			$affiliate_id = $get_affiliate_id;
+
+		} elseif ( $credit_last_referrer ) {
+			// if credit last referrer is enabled it needs to get the affiliate ID from the URL straight away
 
 			if ( $this->get_affiliate_id_or_username() ) {
 				$affiliate_id = $this->get_affiliate_id_or_username();
