@@ -5,7 +5,7 @@
  * Description: Show information based on the affiliate's referral URL
  * Author: AffiliateWP, LLC
  * Author URI: https://affiliatewp.com/
- * Version: 1.0.4
+ * Version: 1.0.5
  * Text Domain: affiliatewp-affiliate-info
  * Domain Path: languages
  *
@@ -49,7 +49,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		private $version = '1.0.4';
+		private $version = '1.0.5';
 
 		/**
 		 * Functions
