@@ -3,8 +3,8 @@
  * Plugin Name: AffiliateWP - Affiliate Info
  * Plugin URI: https://affiliatewp.com/
  * Description: Show information based on the affiliate's referral URL
- * Author: AffiliateWP, LLC
- * Author URI: https://affiliatewp.com/
+ * Author: Sandhills Development, LLC
+ * Author URI: https://sandhillsdev.com
  * Version: 1.0.5
  * Text Domain: affiliatewp-affiliate-info
  * Domain Path: languages
