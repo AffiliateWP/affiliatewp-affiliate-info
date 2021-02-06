@@ -255,14 +255,20 @@ class AffiliateWP_Affiliate_Info_Functions {
 	*
 	* @since 1.0.0
 	*/
-   public function get_affiliate_gravatar() {
+   public function get_affiliate_gravatar( $atts ) {
 
 	   $affiliate_id = $this->get_affiliate_id();
 
 	   if ( $affiliate_id ) {
 
+			$atts = shortcode_atts(
+				array(
+					'size' => 96,
+				), $atts, 'affiliate_info_gravatar'
+			);
+
 		   $args = apply_filters( 'affwp_affiliate_info_gravatar_defaults', array(
-			   'size'    => 96,
+			   'size'    => $atts['size'],
 			   'default' => '',
 			   'alt'     => $this->get_affiliate_name()
 		   ) );

@@ -153,7 +153,9 @@ class AffiliateWP_Affiliate_Info_Shortcodes {
     */
     public function shortcode_affiliate_gravatar( $atts, $content = null ) {
 
-    	$content = affiliatewp_affiliate_info()->functions->get_affiliate_gravatar();
+        $atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+        $content = affiliatewp_affiliate_info()->functions->get_affiliate_gravatar( $atts );
 
     	return do_shortcode( $content );
     }
