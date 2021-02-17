@@ -274,7 +274,7 @@ class AffiliateWP_Affiliate_Info_Functions {
 			);
 
 		   $args = apply_filters( 'affwp_affiliate_info_gravatar_defaults', array(
-			   'size'    => $atts['size'],
+			   'size'    => intval( $atts['size'] ),
 			   'default' => '',
 			   'alt'     => $this->get_affiliate_name()
 		   ) );
