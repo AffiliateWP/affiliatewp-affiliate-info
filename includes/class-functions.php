@@ -254,13 +254,19 @@ class AffiliateWP_Affiliate_Info_Functions {
 	* Get the affiliate's gravatar
 	*
 	* @since 1.0.0
+	*
+	* @param array $atts Array of attributes passed from the shortcode.
 	*/
    public function get_affiliate_gravatar( $atts ) {
 
 	   $affiliate_id = $this->get_affiliate_id();
 
 	   if ( $affiliate_id ) {
-
+			/**
+			 * Combine user shortcode attributes with defaults.
+			 *
+			 * @since 1.0.0
+			 */
 			$atts = shortcode_atts(
 				array(
 					'size' => 96,
