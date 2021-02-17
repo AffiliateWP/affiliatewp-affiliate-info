@@ -251,28 +251,38 @@ class AffiliateWP_Affiliate_Info_Functions {
 	}
 
 	/**
-	* Get the affiliate's gravatar
+	* Gets the affiliate's gravatar
 	*
 	* @since 1.0.0
 	*
-	* @param array $atts Array of attributes passed from the shortcode.
+	* @param array $atts Attributes passed from the shortcode.
+	* @return string Image tag with src to gravatar.
 	*/
    public function get_affiliate_gravatar( $atts ) {
 
 	   $affiliate_id = $this->get_affiliate_id();
 
 	   if ( $affiliate_id ) {
-			/**
-			 * Combine user shortcode attributes with defaults.
-			 *
-			 * @since 1.0.0
-			 */
+
 			$atts = shortcode_atts(
 				array(
 					'size' => 96,
 				), $atts, 'affiliate_info_gravatar'
 			);
-
+			/**
+			 * Filters the gravatar defaults.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param array $args {
+			 *
+			 *     @type int    $size    Avatar display size.
+			 *     @type string $default Absolute location of the default avatar to use (used when the
+			 *                           person has no email address associated with them). Left blank
+			 *                           will render placeholder image.
+			 *     @type string $alt     Alt text. Defaults to affiliate name.
+			 * }
+			 */
 		   $args = apply_filters( 'affwp_affiliate_info_gravatar_defaults', array(
 			   'size'    => intval( $atts['size'] ),
 			   'default' => '',
