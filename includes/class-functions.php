@@ -275,6 +275,7 @@ class AffiliateWP_Affiliate_Info_Functions {
 			 * @since 1.0.0
 			 *
 			 * @param array $args {
+			 *     Arguments for retrieving the affiliate avatar.
 			 *
 			 *     @type int    $size    Avatar display size.
 			 *     @type string $default Absolute location of the default avatar to use (used when the
