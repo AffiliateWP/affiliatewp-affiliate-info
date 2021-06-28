@@ -217,7 +217,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 	 * Use this function like you would a global variable, except without needing
 	 * to declare the global.
 	 *
-	 * Example: <?php $affwp_alp = affiliatewp_affiliate_info(); ?>
+	 * Example: <?php $affwp_affiliate_info = affiliatewp_affiliate_info(); ?>
 	 *
 	 * @since 1.0.0
 	 * @return object The one true AffiliateWP_Affiliate_Info Instance
