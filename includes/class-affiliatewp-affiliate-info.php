@@ -48,7 +48,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		private $version = '1.0.5';
+		private $version = '1.1';
 
 		/**
 		 * Functions

@@ -5,7 +5,7 @@
  * Description: Show information based on the affiliate's referral URL
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 1.0.5
+ * Version: 1.1
  * Text Domain: affiliatewp-affiliate-info
  *
  * AffiliateWP is distributed under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *
  * @package AffiliateWP Affiliate Info
  * @category Core
- * @version 1.0.5
+ * @version 1.1
  */
 
 // Exit if accessed directly

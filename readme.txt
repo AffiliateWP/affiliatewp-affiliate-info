@@ -4,7 +4,7 @@ Tags: AffiliateWP, affiliate, affiliates, Pippin Williamson, Andrew Munro, morda
 Requires at least: 4.6
 Tested up to: 5.5
 Requires PHP: 5.3
-Stable tag: 1.0.5
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,15 @@ OR you can just install it with WordPress by going to Plugins >> Add New >> and 
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 1.1 =
+* New: Enforce minimum dependency requirements checking
+* New: Requires PHP 5.6 minimum
+* New: Requires WordPress 5.0 minimum
+* New: Requires AffiliateWP 2.6 minimum
+| New: Add translation strings for Polish
+* Improved: Allow language translation files to be handled by WordPress.org
+* Improved: Add size parameter to [affiliate_info_gravatar] shortcode
 
 = 1.0.5 =
 * Fix: Compatibility with the Affiliate Landing Pages pro add-on, allowing affiliate info to be shown on first page load.
