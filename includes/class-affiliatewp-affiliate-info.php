@@ -29,9 +29,9 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 		 *
 		 * TL;DR This is a static property property that holds the singleton instance.
 		 *
-		 * @var object
-		 * @static
 		 * @since 1.0
+		 * @var   \AffiliateWP_Affiliate_Info
+		 * @static
 		 */
 		private static $instance;
 
