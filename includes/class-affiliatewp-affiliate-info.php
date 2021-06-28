@@ -14,6 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 
+	/**
+	 * Main plugin bootstrap class.
+	 *
+	 * @since 1.0
+	 */
 	final class AffiliateWP_Affiliate_Info {
 
 		/**
@@ -30,6 +35,13 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 		 */
 		private static $instance;
 
+		/**
+		 * Plugin loader file.
+		 *
+		 * @since 1.1
+		 * @var   string
+		 */
+		private $file = '';
 
 		/**
 		 * The version number of AffiliateWP
@@ -53,13 +65,16 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 		 *
 		 * @since 1.0
 		 * @static
-		 * @static var array $instance
-		 * @return The one true AffiliateWP_Affiliate_Info
+		 *
+		 * @param string $file Path to the main plugin file.
+		 * @return \AffiliateWP_Affiliate_Info The one true bootstrap instance.
 		 */
-		public static function instance() {
+		public static function instance( $file = '' ) {
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof AffiliateWP_Affiliate_Info ) ) {
 
 				self::$instance = new AffiliateWP_Affiliate_Info;
+				self::$instance->file = $file;
+
 				self::$instance->setup_constants();
 				self::$instance->includes();
 				self::$instance->hooks();
@@ -134,17 +149,17 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 
 			// Plugin Folder Path
 			if ( ! defined( 'AFFWP_AFFILIATE_INFO_PLUGIN_DIR' ) ) {
-				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_DIR', plugin_dir_path( $this->file ) );
 			}
 
 			// Plugin Folder URL
 			if ( ! defined( 'AFFWP_AFFILIATE_INFO_PLUGIN_URL' ) ) {
-				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_URL', plugin_dir_url( $this->file ) );
 			}
 
 			// Plugin Root File
 			if ( ! defined( 'AFFWP_AFFILIATE_INFO_PLUGIN_FILE' ) ) {
-				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_FILE', __FILE__ );
+				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_FILE', $this->file );
 			}
 		}
 
@@ -182,7 +197,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 		 * @return      array $links The modified links array
 		 */
 		public function plugin_meta( $links, $file ) {
-		    if ( $file == plugin_basename( __FILE__ ) ) {
+		    if ( $file == plugin_basename( $this->file ) ) {
 		        $plugins_link = array(
 		            '<a title="' . __( 'Get more add-ons for AffiliateWP', 'affiliatewp-affiliate-info' ) . '" href="https://affiliatewp.com/addons/" target="_blank">' . __( 'More add-ons', 'affiliatewp-affiliate-info' ) . '</a>'
 		        );
@@ -192,8 +207,6 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 
 		    return $links;
 		}
-
-
 
 	}
 
@@ -210,22 +223,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 	 * @return object The one true AffiliateWP_Affiliate_Info Instance
 	 */
 	function affiliatewp_affiliate_info() {
-
-	    if ( ! class_exists( 'Affiliate_WP' ) ) {
-
-	        if ( ! class_exists( 'AffiliateWP_Activation' ) ) {
-	            require_once 'includes/class-activation.php';
-	        }
-
-	        $activation = new AffiliateWP_Activation( plugin_dir_path( __FILE__ ), basename( __FILE__ ) );
-	        $activation = $activation->run();
-
-	    } else {
-
-	        return AffiliateWP_Affiliate_Info::instance();
-
-	    }
+        return AffiliateWP_Affiliate_Info::instance();
 	}
-	add_action( 'plugins_loaded', 'affiliatewp_affiliate_info', 100 );
 
 }
