@@ -1,11 +1,9 @@
 === AffiliateWP - Affiliate Info ===
 Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, affiliates, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, membership, referrals, marketing
-Requires at least: 4.6
-Tested up to: 5.5
-Requires at least: 3.3
+Requires at least: 5.0
 Tested up to: 5.7
-Requires PHP: 5.3
+Requires PHP: 5.6
 Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
