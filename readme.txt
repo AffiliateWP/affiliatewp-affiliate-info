@@ -1,10 +1,10 @@
 === AffiliateWP - Affiliate Info ===
 Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, affiliates, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, membership, referrals, marketing
-Requires at least: 3.3
+Requires at least: 5.0
 Tested up to: 5.7
-Requires PHP: 5.3
-Stable tag: 1.0.5
+Requires PHP: 5.6
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,15 @@ OR you can just install it with WordPress by going to Plugins >> Add New >> and 
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 1.1 =
+* New: Enforce minimum dependency requirements checking
+* New: Requires PHP 5.6 minimum
+* New: Requires WordPress 5.0 minimum
+* New: Requires AffiliateWP 2.6 minimum
+| New: Add translation strings for Polish
+* Improved: Allow language translation files to be handled by WordPress.org
+* Improved: Add size parameter to [affiliate_info_gravatar] shortcode
 
 = 1.0.5 =
 * Fix: Compatibility with the Affiliate Landing Pages pro add-on, allowing affiliate info to be shown on first page load.

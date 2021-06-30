@@ -5,9 +5,8 @@
  * Description: Show information based on the affiliate's referral URL
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 1.0.5
+ * Version: 1.1
  * Text Domain: affiliatewp-affiliate-info
- * Domain Path: languages
  *
  * AffiliateWP is distributed under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
@@ -20,259 +19,154 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with AffiliateWP. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package AffiliateWP Affiliate Info
+ * @category Core
+ * @version 1.1
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
+if ( ! class_exists( 'AffiliateWP_Requirements_Check' ) ) {
+	require_once dirname( __FILE__ ) . '/includes/lib/affwp/class-affiliatewp-requirements-check.php';
+}
 
-	final class AffiliateWP_Affiliate_Info {
+/**
+ * Class used to check requirements for and bootstrap the plugin.
+ *
+ * @since 1.1
+ *
+ * @see Affiliate_WP_Requirements_Check
+ */
+class AffiliateWP_AI_Requirements_Check extends AffiliateWP_Requirements_Check {
 
-		/**
-		 * Holds the instance
-		 *
-		 * Ensures that only one instance of AffiliateWP_Affiliate_Info exists in memory at any one
-		 * time and it also prevents needing to define globals all over the place.
-		 *
-		 * TL;DR This is a static property property that holds the singleton instance.
-		 *
-		 * @var object
-		 * @static
-		 * @since 1.0
-		 */
-		private static $instance;
+	/**
+	 * Plugin slug.
+	 *
+	 * @since 1.1
+	 * @var   string
+	 */
+	protected $slug = 'affiliatewp-affiliate-info';
 
+	/**
+	 * Add-on requirements.
+	 *
+	 * @since 1.1
+	 * @var   array[]
+	 */
+	protected $addon_requirements = array(
+		// AffiliateWP.
+		'affwp' => array(
+			'minimum' => '2.6',
+			'name'    => 'AffiliateWP',
+			'exists'  => true,
+			'current' => false,
+			'checked' => false,
+			'met'     => false
+		),
+	);
 
-		/**
-		 * The version number of AffiliateWP
-		 *
-		 * @since 1.0
-		 */
-		private $version = '1.0.5';
+	/**
+	 * Bootstrap everything.
+	 *
+	 * @since 1.1
+	 */
+	public function bootstrap() {
+		if ( ! class_exists( 'Affiliate_WP' ) ) {
 
-		/**
-		 * Functions
-		 *
-		 * @since 1.0
-		 */
-		public $functions;
-
-		/**
-		 * Main AffiliateWP_Affiliate_Info Instance
-		 *
-		 * Insures that only one instance of AffiliateWP_Affiliate_Info exists in memory at any one
-		 * time. Also prevents needing to define globals all over the place.
-		 *
-		 * @since 1.0
-		 * @static
-		 * @static var array $instance
-		 * @return The one true AffiliateWP_Affiliate_Info
-		 */
-		public static function instance() {
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof AffiliateWP_Affiliate_Info ) ) {
-
-				self::$instance = new AffiliateWP_Affiliate_Info;
-				self::$instance->setup_constants();
-				self::$instance->load_textdomain();
-				self::$instance->includes();
-				self::$instance->hooks();
-
-				self::$instance->functions 	= new AffiliateWP_Affiliate_Info_Functions;
-
+			if ( ! class_exists( 'AffiliateWP_Activation' ) ) {
+				require_once 'includes/lib/affwp/class-affiliatewp-activation.php';
 			}
 
-			return self::$instance;
-		}
-
-		/**
-		 * Throw error on object clone
-		 *
-		 * The whole idea of the singleton design pattern is that there is a single
-		 * object therefore, we don't want the object to be cloned.
-		 *
-		 * @since 1.0
-		 * @access protected
-		 * @return void
-		 */
-		public function __clone() {
-			// Cloning instances of the class is forbidden
-			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliatewp-affiliate-info' ), '1.0' );
-		}
-
-		/**
-		 * Disable unserializing of the class
-		 *
-		 * @since 1.0
-		 * @access protected
-		 * @return void
-		 */
-		public function __wakeup() {
-			// Unserializing instances of the class is forbidden
-			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliatewp-affiliate-info' ), '1.0' );
-		}
-
-		/**
-		 * Constructor Function
-		 *
-		 * @since 1.0
-		 * @access private
-		 */
-		private function __construct() {
-			self::$instance = $this;
-		}
-
-		/**
-		 * Reset the instance of the class
-		 *
-		 * @since 1.0
-		 * @access public
-		 * @static
-		 */
-		public static function reset() {
-			self::$instance = null;
-		}
-
-		/**
-		 * Setup plugin constants
-		 *
-		 * @access private
-		 * @since 1.0
-		 * @return void
-		 */
-		private function setup_constants() {
-			// Plugin version
-			if ( ! defined( 'AFFWP_AFFILIATE_INFO_VERSION' ) ) {
-				define( 'AFFWP_AFFILIATE_INFO_VERSION', $this->version );
+			// AffiliateWP activation
+			if ( ! class_exists( 'Affiliate_WP' ) ) {
+				$activation = new AffiliateWP_Activation( plugin_dir_path( __FILE__ ), basename( __FILE__ ) );
+				$activation = $activation->run();
 			}
-
-			// Plugin Folder Path
-			if ( ! defined( 'AFFWP_AFFILIATE_INFO_PLUGIN_DIR' ) ) {
-				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-			}
-
-			// Plugin Folder URL
-			if ( ! defined( 'AFFWP_AFFILIATE_INFO_PLUGIN_URL' ) ) {
-				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-			}
-
-			// Plugin Root File
-			if ( ! defined( 'AFFWP_AFFILIATE_INFO_PLUGIN_FILE' ) ) {
-				define( 'AFFWP_AFFILIATE_INFO_PLUGIN_FILE', __FILE__ );
-			}
+		} else {
+			\AffiliateWP_Affiliate_Info::instance( __FILE__ );
 		}
-
-		/**
-		 * Loads the plugin language files
-		 *
-		 * @access public
-		 * @since 1.0
-		 * @return void
-		 */
-		public function load_textdomain() {
-
-			// Set filter for plugin's languages directory
-			$lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
-			$lang_dir = apply_filters( 'affiliatewp_affiliate_info_languages_directory', $lang_dir );
-
-			// Traditional WordPress plugin locale filter
-			$locale   = apply_filters( 'plugin_locale',  get_locale(), 'affiliatewp-affiliate-info' );
-			$mofile   = sprintf( '%1$s-%2$s.mo', 'affiliatewp-affiliate-info', $locale );
-
-			// Setup paths to current locale file
-			$mofile_local  = $lang_dir . $mofile;
-			$mofile_global = WP_LANG_DIR . '/affiliatewp-affiliate-info/' . $mofile;
-
-			if ( file_exists( $mofile_global ) ) {
-				// Look in global /wp-content/languages/affiliatewp-affiliate-info/ folder
-				load_textdomain( 'affiliatewp-affiliate-info', $mofile_global );
-			} elseif ( file_exists( $mofile_local ) ) {
-				// Look in local /wp-content/plugins/affiliatewp-affiliate-info/languages/ folder
-				load_textdomain( 'affiliatewp-affiliate-info', $mofile_local );
-			} else {
-				// Load the default language files
-				load_plugin_textdomain( 'affiliatewp-affiliate-info', false, $lang_dir );
-			}
-		}
-
-		/**
-		 * Include necessary files
-		 *
-		 * @access      private
-		 * @since       1.0.0
-		 * @return      void
-		 */
-		private function includes() {
-			require_once AFFWP_AFFILIATE_INFO_PLUGIN_DIR . 'includes/class-shortcodes.php';
-			require_once AFFWP_AFFILIATE_INFO_PLUGIN_DIR . 'includes/class-functions.php';
-		}
-
-		/**
-		 * Setup the default hooks and actions
-		 *
-		 * @since 1.0
-		 *
-		 * @return void
-		 */
-		private function hooks() {
-			// plugin meta
-			add_filter( 'plugin_row_meta', array( $this, 'plugin_meta' ), null, 2 );
-		}
-
-		/**
-		 * Modify plugin metalinks
-		 *
-		 * @access      public
-		 * @since       1.0.0
-		 * @param       array $links The current links array
-		 * @param       string $file A specific plugin table entry
-		 * @return      array $links The modified links array
-		 */
-		public function plugin_meta( $links, $file ) {
-		    if ( $file == plugin_basename( __FILE__ ) ) {
-		        $plugins_link = array(
-		            '<a title="' . __( 'Get more add-ons for AffiliateWP', 'affiliatewp-affiliate-info' ) . '" href="https://affiliatewp.com/addons/" target="_blank">' . __( 'More add-ons', 'affiliatewp-affiliate-info' ) . '</a>'
-		        );
-
-		        $links = array_merge( $links, $plugins_link );
-		    }
-
-		    return $links;
-		}
-
-
-
 	}
 
 	/**
-	 * The main function responsible for returning the one true AffiliateWP_Affiliate_Info
-	 * Instance to functions everywhere.
+	 * Loads the add-on.
 	 *
-	 * Use this function like you would a global variable, except without needing
-	 * to declare the global.
-	 *
-	 * Example: <?php $affwp_alp = affiliatewp_affiliate_info(); ?>
-	 *
-	 * @since 1.0.0
-	 * @return object The one true AffiliateWP_Affiliate_Info Instance
+	 * @since 1.1
 	 */
-	function affiliatewp_affiliate_info() {
+	protected function load() {
+		// Maybe include the bundled bootstrapper.
+		if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
+			require_once dirname( __FILE__ ) . '/includes/class-affiliatewp-affiliate-info.php';
+		}
 
-	    if ( ! class_exists( 'Affiliate_WP' ) ) {
+		// Maybe hook-in the bootstrapper.
+		if ( class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 
-	        if ( ! class_exists( 'AffiliateWP_Activation' ) ) {
-	            require_once 'includes/class-activation.php';
-	        }
+			$affwp_version = get_option( 'affwp_version' );
 
-	        $activation = new AffiliateWP_Activation( plugin_dir_path( __FILE__ ), basename( __FILE__ ) );
-	        $activation = $activation->run();
+			if ( version_compare( $affwp_version, '2.7', '<' ) ) {
+				add_action( 'plugins_loaded', array( $this, 'bootstrap' ), 100 );
+			} else {
+				add_action( 'affwp_plugins_loaded', array( $this, 'bootstrap' ), 100 );
+			}
 
-	    } else {
-
-	        return AffiliateWP_Affiliate_Info::instance();
-
-	    }
+			// Register the activation hook.
+			register_activation_hook( __FILE__, array( $this, 'install' ) );
+		}
 	}
-	add_action( 'plugins_loaded', 'affiliatewp_affiliate_info', 100 );
+
+	/**
+	 * Install, usually on an activation hook.
+	 *
+	 * @since 1.1
+	 */
+	public function install() {
+		// Bootstrap to include all of the necessary files
+		$this->bootstrap();
+
+		if ( defined( 'AFFWP_AFFILIATE_INFO_VERSION' ) ) {
+			update_option( 'affwp_ai_version', AFFWP_AFFILIATE_INFO_VERSION );
+		}
+	}
+
+	/**
+	 * Plugin-specific aria label text to describe the requirements link.
+	 *
+	 * @since 1.1
+	 *
+	 * @return string Aria label text.
+	 */
+	protected function unmet_requirements_label() {
+		return esc_html__( 'AffiliateWP - Affiliate Info Requirements', 'affiliatewp-affiliate-info' );
+	}
+
+	/**
+	 * Plugin-specific text used in CSS to identify attribute IDs and classes.
+	 *
+	 * @since 1.1
+	 *
+	 * @return string CSS selector.
+	 */
+	protected function unmet_requirements_name() {
+		return 'affiliatewp-affiliate-info-requirements';
+	}
+
+	/**
+	 * Plugin specific URL for an external requirements page.
+	 *
+	 * @since 1.1
+	 *
+	 * @return string Unmet requirements URL.
+	 */
+	protected function unmet_requirements_url() {
+		return 'https://docs.affiliatewp.com/article/2361-minimum-requirements-roadmaps';
+	}
 
 }
+
+$requirements = new AffiliateWP_AI_Requirements_Check( __FILE__ );
+
+$requirements->maybe_load();
